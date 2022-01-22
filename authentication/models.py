@@ -1,15 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from .utils import *
 
 
 # Create your models here.
 class UserManager(BaseUserManager):
-
     def create_user(self,
                     username,
                     email,
-                    image,
-                    gender,
+                    image='',
+                    gender='M',
                     password=None,
                     first_name='No Name',
                     last_name='No Last Name',
@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255, default='No Name')
     last_name = models.CharField(max_length=255, default='No Last Name')
     image = models.ImageField(
-        upload_to='authentication/images',
+        upload_to=content_file_name,
         max_length=512,
         blank=True,
         default=''
@@ -76,3 +76,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    def save(self, *args, **kwargs):
+        super().save()
+        if not self.image:
+            return
+        add_watermark(self.image)

@@ -9,7 +9,7 @@ class UserManager(BaseUserManager):
                     username,
                     email,
                     image='',
-                    gender='M',
+                    gender='Male',
                     password=None,
                     first_name='No Name',
                     last_name='No Last Name',
@@ -57,11 +57,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=''
     )
 
-    GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
-    )
-    gender = models.CharField(max_length=127, choices=GENDER_CHOICES, default=GENDER_CHOICES[0][0])
+    class GenderChoices(models.TextChoices):
+        MALE = 'Male'
+        FEMALE = 'Female'
+
+    gender = models.CharField(max_length=127, choices=GenderChoices.choices, default=GenderChoices.MALE)
 
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

@@ -5,7 +5,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 # Create your models here.
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, email, password=None, first_name='No Name', last_name='No Last Name'):
+    def create_user(self,
+                    username,
+                    email,
+                    image,
+                    gender,
+                    password=None,
+                    first_name='No Name',
+                    last_name='No Last Name',
+                    ):
 
         if username is None:
             raise TypeError('User should have a username')
@@ -16,7 +24,9 @@ class UserManager(BaseUserManager):
             username=username,
             email=self.normalize_email(email),
             first_name=first_name,
-            last_name=last_name
+            last_name=last_name,
+            image=image,
+            gender=gender
         )
         user.set_password(password)
         user.save()
@@ -40,7 +50,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     first_name = models.CharField(max_length=255, default='No Name')
     last_name = models.CharField(max_length=255, default='No Last Name')
-    image = models.ImageField(max_length=512, blank=True, default='')
+    image = models.ImageField(
+        upload_to='authentication/images',
+        max_length=512,
+        blank=True,
+        default=''
+    )
 
     GENDER_CHOICES = (
         ('M', 'Male'),

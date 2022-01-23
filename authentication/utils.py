@@ -9,7 +9,7 @@ from django.core.files import File
 def content_file_name(instance, filename):
     ext = filename.split('.')[-1]
     filename = "%s_%s.%s" % (instance.username, datetime.now().strftime('%Y-%m-%d_%H-%M'), ext)
-    return os.path.join(settings.AVATARS_PATH, filename)
+    return os.path.join('authentication', filename)
 
 
 def add_watermark(image):

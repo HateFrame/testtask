@@ -8,11 +8,7 @@ class UserManager(BaseUserManager):
     def create_user(self,
                     username,
                     email,
-                    image='',
-                    gender='Male',
                     password=None,
-                    first_name='No Name',
-                    last_name='No Last Name',
                     ):
 
         if username is None:
@@ -23,10 +19,6 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=self.normalize_email(email),
-            first_name=first_name,
-            last_name=last_name,
-            image=image,
-            gender=gender
         )
         user.set_password(password)
         user.save()
@@ -38,7 +30,7 @@ class UserManager(BaseUserManager):
         if password is None:
             raise TypeError('User password should not be none')
 
-        user = self.create_user(username, email, password, first_name, last_name)
+        user = self.create_user(username, email, password)
         user.is_superuser = True
         user.is_staff = True
         user.save()

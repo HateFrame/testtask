@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from .utils import *
+import jwt
+from datetime import datetime, timedelta
 
 
 # Create your models here.
@@ -9,6 +11,7 @@ class UserManager(BaseUserManager):
                     username,
                     email,
                     password=None,
+                    **extra_fields
                     ):
 
         if username is None:
@@ -19,18 +22,19 @@ class UserManager(BaseUserManager):
         user = self.model(
             username=username,
             email=self.normalize_email(email),
+            **extra_fields
         )
         user.set_password(password)
         user.save()
 
         return user
 
-    def create_superuser(self, username, email, password=None, first_name='Admin', last_name='Admin'):
+    def create_superuser(self, username, email, password=None, **extra_fields):
 
         if password is None:
             raise TypeError('User password should not be none')
 
-        user = self.create_user(username, email, password)
+        user = self.create_user(username, email, password, **extra_fields)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -74,3 +78,4 @@ class User(AbstractBaseUser, PermissionsMixin):
         if not self.image:
             return
         add_watermark(self.image)
+

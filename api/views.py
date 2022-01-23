@@ -1,10 +1,16 @@
+import rest_framework.permissions
 from rest_framework import generics, status
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .serializer import RegisterSerializer
+from .renderers import UserJSONRenderer
 
 
 # Create your views here.
 class RegisterView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+    # custom render class UserJSONRender
+    # renderer_classes = [UserJSONRenderer]
     serializer_class = RegisterSerializer
 
     def post(self, request):
@@ -13,6 +19,4 @@ class RegisterView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        user_data = serializer.data
-
-        return Response(user_data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

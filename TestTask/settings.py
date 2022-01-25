@@ -19,7 +19,6 @@ from dotenv import load_dotenv
 # To get use 'os.getenv("VAR")'
 load_dotenv()
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -53,7 +52,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # swagger
-    'drf_yasg'
+    'drf_yasg',
+
+    # django-filter
+    'django_filters'
 ]
 
 REST_FRAMEWORK = {
@@ -66,6 +68,9 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
+    'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
 }
 
 # Djoser and simple jwt

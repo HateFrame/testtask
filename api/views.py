@@ -1,7 +1,11 @@
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from .serializer import RegisterSerializer, MatchSerializer
+from django_filters import rest_framework as filters
+
+from authentication.models import User
+
+from .serializer import RegisterSerializer, MatchSerializer, UserSerializer
 from .utils import send_liked_mail
 
 
@@ -46,3 +50,17 @@ class MatchView(generics.GenericAPIView):
 
             return Response(status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserFilter(filters.FilterSet):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'gender']
+
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = UserFilter
+

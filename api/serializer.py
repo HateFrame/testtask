@@ -52,6 +52,8 @@ class MatchSerializer(serializers.Serializer):
 
         if user == partner:
             raise serializers.ValidationError('You can not like or yourself')
+        if user.likes.filter(pk=partner.pk).exists():
+            raise serializers.ValidationError('You liked this user already')
         return attrs
 
 

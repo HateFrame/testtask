@@ -15,6 +15,9 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
+
+GEOS_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\geos_c.dll'
+GDAL_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\gdal304.dll'
 # Take environment variables from .env
 # To get use 'os.getenv("VAR")'
 load_dotenv()
@@ -44,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
+
 
     'rest_framework',
     'authentication',
@@ -127,7 +132,7 @@ DATABASES = {
     # }
 
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("DB_USER_PASSWORD"),

@@ -1,13 +1,15 @@
+from drf_extra_fields.geo_fields import PointField
 from rest_framework import serializers
 from authentication.models import User
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(max_length=63, min_length=6, write_only=True)
+    location = PointField()
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'image', 'gender', 'password']
+        fields = ['username', 'email', 'first_name', 'last_name', 'image', 'gender', 'password', 'location']
         extra_kwargs = {
             "username": {
                 "error_messages": {
@@ -37,8 +39,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class MatchSerializer(serializers.Serializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    partner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
+    partner = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False)
 
     def create(self, validated_data):
         user = validated_data.get('user')

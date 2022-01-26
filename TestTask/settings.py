@@ -5,8 +5,8 @@ from datetime import timedelta
 from dotenv import load_dotenv
 
 
-GEOS_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\geos_c.dll'
-GDAL_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\gdal304.dll'
+# GEOS_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\geos_c.dll'
+# GDAL_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\gdal304.dll'
 # Take environment variables from .env
 # To get use 'os.getenv("VAR")'
 load_dotenv()

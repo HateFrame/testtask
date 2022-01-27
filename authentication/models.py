@@ -9,7 +9,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     first_name = models.CharField(max_length=255, default='No Name')
     last_name = models.CharField(max_length=255, default='No Last Name')
-    likes = models.ManyToManyField('self', symmetrical=False)
+    likes = models.ManyToManyField('self', symmetrical=False, null=True, blank=True)
     image = models.ImageField(
         upload_to=content_file_name,
         max_length=512,

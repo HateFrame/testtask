@@ -60,6 +60,8 @@ class MatchSerializer(serializers.Serializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    location = PointField()
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'gender']
+        fields = ['username', 'email', 'first_name', 'last_name', 'gender', 'location']
